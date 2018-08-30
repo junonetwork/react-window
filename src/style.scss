@@ -1,0 +1,23 @@
+.split-window {
+  display: grid;
+  width: 100%;
+  height: 100%;
+
+  .split-window-vertical-slider {
+    padding: 0 5px;
+    cursor: col-resize;
+
+    .split-window-vertical-slider-line {
+      border-left: 1px solid #bbb;
+      height: 100%;
+    }
+
+    &:hover {
+      background-color: #efefef;
+
+      .split-window-vertical-slider-line {
+        border-color: #aaa;
+      }
+    }
+  }
+}

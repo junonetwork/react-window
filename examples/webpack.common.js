@@ -24,6 +24,14 @@ module.exports = {
           { loader: 'ts-loader' },
         ],
       },
+      {
+        test: /\.s?css$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader' }, // translates CSS into CommonJS
+          { loader: 'sass-loader' }, // compiles Sass to CSS
+        ],
+      },
     ],
   },
 
@@ -35,6 +43,6 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.js', '.ts', '.tsx'],
+    extensions: ['.js', '.ts', '.tsx', '.css', '.scss'],
   },
 };

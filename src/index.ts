@@ -36,10 +36,8 @@ export default class SplitWindow extends Component<Props, State> {
 
   public render() {
     return createElement('div', {
+      className: 'split-window',
       style: {
-        display: 'grid',
-        width: '100%',
-        height: '100%',
         gridTemplateColumns: intersperce('11px', range(0, this.props.children.length).map(just('1fr'))).join(' '),
         gridTemplateRows: '1',
       }

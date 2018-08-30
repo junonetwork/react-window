@@ -1,8 +1,10 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import SplitWindow from '../../src';
+import './reset';
+import '../../src/style';
+import './style';
 
-export type X = number
 
 render((
   <SplitWindow>
