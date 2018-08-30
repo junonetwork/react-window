@@ -1,12 +1,3 @@
-function reverse(str: string): string;
-function reverse<T>(array: T[]): T[];
-function reverse<T>(stringOrArray: string | T[]): string | T[] {
-    return typeof stringOrArray === "string"
-        ? stringOrArray.split("").reverse().join("")
-        : stringOrArray.slice().reverse();
-}
-
-
 export function pipe<T>(): (input: T) => T;
 export function pipe<T, T1>(
   x1: (x: T) => T1

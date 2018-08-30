@@ -8,11 +8,11 @@
   }
 
   .split-window-vertical-slider {
-    padding: 0 5px;
     cursor: col-resize;
 
     .split-window-vertical-slider-line {
-      border-left: 1px solid #bbb;
+      border-style: solid;
+      border-color: #bbb;
       height: 100%;
     }
 

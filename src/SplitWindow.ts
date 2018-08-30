@@ -1,6 +1,7 @@
-import { Component, createElement, ReactNode, createRef, Ref, RefObject } from "react";
+import { Component, createElement, ReactNode, createRef, RefObject } from "react";
 import { throttle, intersperce, range, just, sum } from "./utils";
-import { VerticalSlider } from "./VerticalSlider";
+import { VerticalSlider } from './VerticalSlider';
+import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH } from './config';
 
 
 export type Props = {
@@ -13,9 +14,6 @@ type State = {
 }
 
 type RefMap = Array<RefObject<HTMLDivElement>>
-
-
-const MIN_WIDTH = 20;
 
 
 export default class SplitWindow extends Component<Props, State> {
@@ -51,21 +49,21 @@ export default class SplitWindow extends Component<Props, State> {
         // sum widths of panels + sliders to left of slider, essentially:
         pipe(
           take(this.state.sliding),
-          intersperce(11),
+          intersperce(SLIDER_WIDTH),
           reduce(sum),
-          add(5)
+          add(SLIDER_HALF_WIDTH)
           add(this.containerRef.current!.getBoundingClientRect().left)
         )(this.state.widths)
         */
-        let previousAbsoluteWidth = this.containerRef.current!.getBoundingClientRect().left - 11;
+        let previousAbsoluteWidth = this.containerRef.current!.getBoundingClientRect().left - SLIDER_WIDTH;
         for (let i = 0; i < this.state.widths.length; i++) {
-          previousAbsoluteWidth += this.state.widths[i] + 11;
+          previousAbsoluteWidth += this.state.widths[i] + SLIDER_WIDTH;
           if (i === this.state.sliding) {
             break
           }
         }
 
-        const delta = e.clientX - previousAbsoluteWidth + 5;
+        const delta = e.clientX - previousAbsoluteWidth - SLIDER_HALF_WIDTH;
 
         if (this.state.widths[this.state.sliding] + delta < MIN_WIDTH) {
           const cappedDelta = MIN_WIDTH - this.state.widths[this.state.sliding];
@@ -92,7 +90,7 @@ export default class SplitWindow extends Component<Props, State> {
     const windows = range(0, this.props.children.length);
 
     const gridTemplateColumns = intersperce(
-      '11px',
+      `${SLIDER_WIDTH}px`,
       windows.map((index) => (
         this.state.widths === null ?
           '1fr' :
@@ -112,7 +110,7 @@ export default class SplitWindow extends Component<Props, State> {
       style: {
         gridTemplateColumns,
         gridTemplateRows: '1',
-        minWidth: `${intersperce(11, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
+        minWidth: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
       if (idx === children.length - 1) {
