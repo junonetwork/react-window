@@ -1,14 +1,28 @@
-import { createElement, SFC } from "react";
+import { createElement, MouseEvent, PureComponent } from "react";
 
 
-type Props = {}
+type Props = {
+  idx: number
+  onMouseDown(idx: number): void
+}
 
-export const VerticalSlider: SFC<Props> = () => (
-  createElement('div', {
-    className: 'split-window-vertical-slider'
-  },
-    createElement('div', {
-      className: 'split-window-vertical-slider-line',
-    })
-  )
-);
+export class VerticalSlider extends PureComponent<Props> {
+  private onMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onMouseDown(this.props.idx);
+  }
+
+  public render() {
+    return (
+      createElement('div', {
+        className: 'split-window-vertical-slider',
+        onMouseDown: this.onMouseDown,
+      },
+        createElement('div', {
+          className: 'split-window-vertical-slider-line',
+        })
+      )
+    );
+  }
+}

@@ -12,6 +12,7 @@ render((
       <h1 className="window" key="first">One</h1>,
       <h1 className="window" key="second">Two</h1>,
       <h1 className="window" key="third">Three</h1>,
+      <h1 className="window" key="fourth">Four</h1>,
     ]}
   </SplitWindow>
 ), document.getElementById('root'));
