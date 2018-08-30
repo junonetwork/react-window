@@ -1,5 +1,5 @@
 import { Component, createElement, ReactNode, createRef, Ref, RefObject } from "react";
-import { throttle, intersperce, range } from "./utils";
+import { throttle, intersperce, range, just, sum } from "./utils";
 import { VerticalSlider } from "./VerticalSlider";
 
 
@@ -13,6 +13,9 @@ type State = {
 }
 
 type RefMap = Array<RefObject<HTMLDivElement>>
+
+
+const MIN_WIDTH = 20;
 
 
 export default class SplitWindow extends Component<Props, State> {
@@ -44,8 +47,17 @@ export default class SplitWindow extends Component<Props, State> {
           })
         });
       } else {
-        // sum widths of panels + sliders to left of slider
-        let previousAbsoluteWidth = this.containerRef.current!.getBoundingClientRect().left - 6;
+        /*
+        // sum widths of panels + sliders to left of slider, essentially:
+        pipe(
+          take(this.state.sliding),
+          intersperce(11),
+          reduce(sum),
+          add(5)
+          add(this.containerRef.current!.getBoundingClientRect().left)
+        )(this.state.widths)
+        */
+        let previousAbsoluteWidth = this.containerRef.current!.getBoundingClientRect().left - 11;
         for (let i = 0; i < this.state.widths.length; i++) {
           previousAbsoluteWidth += this.state.widths[i] + 11;
           if (i === this.state.sliding) {
@@ -53,11 +65,23 @@ export default class SplitWindow extends Component<Props, State> {
           }
         }
 
-        const delta = e.clientX - previousAbsoluteWidth;
+        const delta = e.clientX - previousAbsoluteWidth + 5;
 
-        this.state.widths[this.state.sliding] = this.state.widths[this.state.sliding] + delta
-        this.state.widths[this.state.sliding + 1] = this.state.widths[this.state.sliding + 1] - delta
-        this.setState({ widths: this.state.widths });
+        if (this.state.widths[this.state.sliding] + delta < MIN_WIDTH) {
+          const cappedDelta = MIN_WIDTH - this.state.widths[this.state.sliding];
+          this.state.widths[this.state.sliding] = this.state.widths[this.state.sliding] + cappedDelta;
+          this.state.widths[this.state.sliding + 1] = this.state.widths[this.state.sliding + 1] - cappedDelta;
+          this.setState({ widths: this.state.widths });
+        } else if (this.state.widths[this.state.sliding + 1] - delta < MIN_WIDTH) {
+          const cappedDelta = this.state.widths[this.state.sliding + 1] - MIN_WIDTH;
+          this.state.widths[this.state.sliding] = this.state.widths[this.state.sliding] + cappedDelta;
+          this.state.widths[this.state.sliding + 1] = this.state.widths[this.state.sliding + 1] - cappedDelta;
+          this.setState({ widths: this.state.widths });
+        } else {
+          this.state.widths[this.state.sliding] = this.state.widths[this.state.sliding] + delta;
+          this.state.widths[this.state.sliding + 1] = this.state.widths[this.state.sliding + 1] - delta;
+          this.setState({ widths: this.state.widths });
+        }
       }
     }
   })
@@ -71,7 +95,7 @@ export default class SplitWindow extends Component<Props, State> {
       '11px',
       windows.map((index) => (
         this.state.widths === null ?
-          '1fr' : // TODO - should last window always be 1fr?
+          '1fr' :
           `${this.state.widths[index]}px`
         ))
     ).join(' ');
@@ -88,6 +112,7 @@ export default class SplitWindow extends Component<Props, State> {
       style: {
         gridTemplateColumns,
         gridTemplateRows: '1',
+        minWidth: `${intersperce(11, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
       if (idx === children.length - 1) {

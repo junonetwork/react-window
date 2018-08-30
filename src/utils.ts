@@ -55,6 +55,8 @@ export const range = (from: number, to: number) => {
   return result;
 }
 
+export const sum = (a: number, b: number) => a + b;
+
 export const just = <T>(value: T) => () => value;
 
 export const throttle = <T, R>(cb: (...args: T[]) => R, trailing = false) => {
