@@ -18,7 +18,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        include: path.join(__dirname, './src/'),
+        // include: path.join(__dirname, '../src/'), // point to examples and src?
         use: [
           { loader: 'babel-loader' },
           { loader: 'ts-loader' },

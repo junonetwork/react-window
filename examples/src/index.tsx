@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { render } from 'react-dom';
-import { createElement } from 'react';
+import SplitWindow from '../../src';
+
+export type X = number
 
 render((
-  <div>!!</div>
+  <SplitWindow>
+    {[
+      <h1 className="window" key="first">One</h1>,
+      <h1 className="window" key="second">Two</h1>,
+      <h1 className="window" key="third">Three</h1>,
+    ]}
+  </SplitWindow>
 ), document.getElementById('root'));
