@@ -1,11 +1,11 @@
-import { Component, createElement, ReactNode, createRef, RefObject } from "react";
+import { Component, createElement, ReactNode, createRef, RefObject, ReactNodeArray } from "react";
 import { throttle, intersperce, range, just, sum } from "./utils";
 import Slider from './Slider';
 import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH } from './config';
 
 
 export type Props = {
-  children: ReactNode[],
+  children: Array<ReactNode | ReactNodeArray>
   vertical?: boolean
 }
 
@@ -118,20 +118,31 @@ export default class SplitWindow extends Component<Props, State> {
       style: {
         [this.props.vertical ? 'gridTemplateRows' : 'gridTemplateColumns']: gridTemplate,
         [this.props.vertical ? 'gridTemplateColumns' : 'gridTemplateRows']: '1',
-        minWidth: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
+        [this.props.vertical ? 'minHeight' : 'minWidth']: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
-      if (idx === children.length - 1) {
+      if (Array.isArray(child)) {
         acc.push(createElement('div', {
           className: 'split-window-pane',
           ref: this.windowRefMap[idx],
-        }, child));
+        },
+          createElement(SplitWindow, {
+            vertical: !this.props.vertical,
+            children: child
+          })
+        ));
       } else {
         acc.push(
           createElement('div', {
             className: 'split-window-pane',
             ref: this.windowRefMap[idx],
-          }, child),
+          }, child)
+        );
+      }
+
+      if (idx !== children.length - 1) {
+        acc.push(
+          // TODO - use intersperse
           createElement(Slider, {
             idx,
             vertical: this.props.vertical,
