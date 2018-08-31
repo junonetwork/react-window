@@ -26,7 +26,7 @@ export function pipe(...fns: Array<(x: any) => any>) {
   }
 };
 
-export const map = <T, R = T>(project: (x: T) => R, list: T[]) => {
+export const map = <T, R = T>(project: (x: T) => R) => (list: T[]) => {
   const result = [];
   for (const item of list) {
     result.push(project(item));
@@ -39,6 +39,12 @@ export const intersperce = <T, R = T>(sep: T, list: R[]) => list.reduce<Array<T 
   idx === list.length - 1 ? acc.push(item) : acc.push(item, sep),
   acc
 ), []);
+
+export const intersperceProject = <T, R = T>(projectSep: (idx: number) => T) => (list: R[]) =>
+  list.reduce<Array<T | R>>((acc, item, idx) => (
+    idx === list.length - 1 ? acc.push(item) : acc.push(item, projectSep(idx)),
+    acc
+  ), []);
 
 export const range = (from: number, to: number) => {
   const result = [];

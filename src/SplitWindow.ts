@@ -5,7 +5,7 @@ import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH } from './config';
 
 
 export type Props = {
-  children: Array<ReactNode | ReactNodeArray>
+  children: Array<ReactNode | ReactNode[]>
   vertical?: boolean
 }
 
@@ -121,28 +121,26 @@ export default class SplitWindow extends Component<Props, State> {
         [this.props.vertical ? 'minHeight' : 'minWidth']: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
-      if (Array.isArray(child)) {
-        acc.push(createElement('div', {
+      acc.push(
+        createElement('div', {
           className: 'split-window-pane',
           ref: this.windowRefMap[idx],
         },
-          createElement(SplitWindow, {
-            vertical: !this.props.vertical,
-            children: child
-          })
-        ));
-      } else {
-        acc.push(
-          createElement('div', {
-            className: 'split-window-pane',
-            ref: this.windowRefMap[idx],
-          }, child)
-        );
-      }
+          Array.isArray(child) ?
+            createElement(SplitWindow, {
+              vertical: !this.props.vertical,
+              children: child
+            }) :
+            createElement('div', {
+              className: 'split-window-pane',
+              ref: this.windowRefMap[idx],
+            }, child)
+        )
+      );
 
+      // TODO - use intersperceProject: pipe(map(createPane), intersperceProject(createSlider))(children);
       if (idx !== children.length - 1) {
         acc.push(
-          // TODO - use intersperse
           createElement(Slider, {
             idx,
             vertical: this.props.vertical,
