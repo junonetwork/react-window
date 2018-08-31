@@ -7,7 +7,7 @@ import './style';
 
 
 render((
-  <SplitWindow>
+  <SplitWindow vertical>
     {[
       <h1 className="window" key="first">One</h1>,
       <h1 className="window" key="second">Two</h1>,

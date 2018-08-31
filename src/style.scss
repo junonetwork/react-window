@@ -7,19 +7,20 @@
     overflow: auto;
   }
 
-  .split-window-vertical-slider {
+  .split-window-slider {
     cursor: col-resize;
 
-    .split-window-vertical-slider-line {
+    .split-window-slider-line {
       border-style: solid;
       border-color: #bbb;
       height: 100%;
+      width: 100%;
     }
 
     &:hover {
       background-color: #efefef;
 
-      .split-window-vertical-slider-line {
+      .split-window-slider-line {
         border-color: #aaa;
       }
     }
