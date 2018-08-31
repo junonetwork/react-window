@@ -1,3 +1,6 @@
+import raf from 'raf';
+
+
 export function pipe<T>(): (input: T) => T;
 export function pipe<T, T1>(
   x1: (x: T) => T1
@@ -57,13 +60,12 @@ export const throttle = <T, R>(cb: (...args: T[]) => R, trailing = false) => {
     if (clear) {
       clear = false;
 
-      // TODO - use requestAnimationFrame
-      setTimeout(() => {
+      raf(() => {
         if (trailing) {
           cb(...args);
         }
         clear = true;
-      }, 16);
+      });
 
       if (!trailing) {
         return cb(...args);
