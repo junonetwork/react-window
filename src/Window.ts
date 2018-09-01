@@ -119,7 +119,7 @@ export default class Window extends Component<Props, State> {
       ref: this.containerRef,
       style: {
         [this.props.vertical ? 'gridTemplateRows' : 'gridTemplateColumns']: gridTemplate,
-        [this.props.vertical ? 'gridTemplateColumns' : 'gridTemplateRows']: '1',
+        [this.props.vertical ? 'gridTemplateColumns' : 'gridTemplateRows']: '1fr',
         [this.props.vertical ? 'minHeight' : 'minWidth']: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
