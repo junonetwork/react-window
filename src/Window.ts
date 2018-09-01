@@ -1,4 +1,4 @@
-import { Component, createElement, ReactNode, createRef, RefObject, ReactNodeArray } from "react";
+import { Component, createElement, ReactNode, createRef, RefObject } from "react";
 import { throttle, intersperce, range, just, sum } from "./utils";
 import Slider from './Slider';
 import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH } from './config';
@@ -17,7 +17,7 @@ type State = {
 type RefMap = Array<RefObject<HTMLDivElement>>
 
 
-export default class SplitWindow extends Component<Props, State> {
+export default class Window extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     document.addEventListener('mousemove', this.mouseMove);
@@ -99,8 +99,10 @@ export default class SplitWindow extends Component<Props, State> {
 
     const gridTemplate = intersperce(
       `${SLIDER_WIDTH}px`,
-      windows.map((index) => (
+      windows.map((index, idx) => (
         this.state.widths === null ?
+          '1fr' :
+        idx === this.state.widths.length - 1 ?
           '1fr' :
           `${this.state.widths[index]}px`
         ))
@@ -113,7 +115,7 @@ export default class SplitWindow extends Component<Props, State> {
     });
 
     return createElement('div', {
-      className: 'split-window',
+      className: 'react-window',
       ref: this.containerRef,
       style: {
         [this.props.vertical ? 'gridTemplateRows' : 'gridTemplateColumns']: gridTemplate,
@@ -123,16 +125,16 @@ export default class SplitWindow extends Component<Props, State> {
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
       acc.push(
         createElement('div', {
-          className: 'split-window-pane',
+          className: 'react-window-pane',
           ref: this.windowRefMap[idx],
         },
           Array.isArray(child) ?
-            createElement(SplitWindow, {
+            createElement(Window, {
               vertical: !this.props.vertical,
               children: child
             }) :
             createElement('div', {
-              className: 'split-window-pane',
+              className: 'react-window-pane',
               ref: this.windowRefMap[idx],
             }, child)
         )

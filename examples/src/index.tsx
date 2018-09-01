@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import SplitWindow from '../../src';
+import Window from '../../src';
 import './reset';
 import '../../src/style';
 import './style';
 
 
 render((
-  <SplitWindow vertical>
+  <Window>
     {[
       [
         <h1 className="window" key="first">One</h1>,
@@ -25,5 +25,5 @@ render((
       ],
       <h1 className="window" key="third">Three</h1>,
     ]}
-  </SplitWindow>
+  </Window>
 ), document.getElementById('root'));

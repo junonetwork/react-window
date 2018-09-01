@@ -1,1 +1,1 @@
-export { default, Props as SplitWindowProps } from './SplitWindow';
+export { default, Props as WindowProps } from './Window';

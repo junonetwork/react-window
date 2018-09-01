@@ -18,7 +18,7 @@ export default class Slider extends PureComponent<Props> {
   public render() {
     return (
       createElement('div', {
-        className: 'split-window-slider',
+        className: 'react-window-slider',
         style: {
           padding: this.props.vertical ? `${SLIDER_MARGIN}px 0` : `0 ${SLIDER_MARGIN}px`,
           cursor: this.props.vertical ? 'row-resize' : 'col-resize',
@@ -26,7 +26,7 @@ export default class Slider extends PureComponent<Props> {
         onMouseDown: this.onMouseDown,
       },
         createElement('div', {
-          className: 'split-window-slider-line',
+          className: 'react-window-slider-line',
           style: {
             [this.props.vertical ? 'borderTopWidth' : 'borderLeftWidth']: `${SLIDER_LINE}px`
           }
