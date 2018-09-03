@@ -133,10 +133,7 @@ export default class Window extends Component<Props, State> {
               vertical: !this.props.vertical,
               children: child
             }) :
-            createElement('div', {
-              className: 'react-window-pane',
-              ref: this.windowRefMap[idx],
-            }, child)
+            child
         )
       );
 
