@@ -108,12 +108,6 @@ export default class Window extends Component<Props, State> {
         ))
     ).join(' ');
 
-    windows.forEach((index) => {
-      if (!this.windowRefMap[index]) {
-        this.windowRefMap[index] = createRef()
-      }
-    });
-
     return createElement('div', {
       className: 'react-window',
       ref: this.containerRef,
@@ -123,6 +117,7 @@ export default class Window extends Component<Props, State> {
         [this.props.vertical ? 'minHeight' : 'minWidth']: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
+      this.windowRefMap[idx] = createRef();
       acc.push(
         createElement('div', {
           className: 'react-window-pane',
