@@ -2,6 +2,8 @@
 
 Draggable window management for react.
 
+![example](https://user-images.githubusercontent.com/4389360/45047428-00f4a600-b047-11e8-833b-f60cd02815e1.png)
+
 
 ### Examples
 ```ts
