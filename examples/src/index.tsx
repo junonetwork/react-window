@@ -10,17 +10,17 @@ render((
   <Window>
     {[
       [
-        <h1 className="window" key="one">One</h1>,
-        <h1 className="window" key="two">Two</h1>,
+        <div className="window">One</div>,
+        <div className="window">Two</div>,
         [
-          <h1 className="window" key="three">Three</h1>,
+          <div className="window" key="three">Three</div>,
           [
-            <h1 className="window" key="three.1">Three Point One</h1>,
-            <h1 className="window" key="three.2">Three Point Two</h1>,
+            <div className="window" key="three.1">Three Point One</div>,
+            <div className="window" key="three.2">Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two</div>,
           ]
         ]
       ],
-      <h1 className="window" key="four">Four</h1>,
+      <div className="window" key="four">Four</div>,
     ]}
   </Window>
 ), document.getElementById('root'));

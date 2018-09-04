@@ -6,8 +6,27 @@
   .window {
     padding: 3rem 1rem;
     font-weight: 200;
-    font-size: 34px;
-    color: #ccc;
     text-align: center;
+    overflow: auto;
+
+    // setting scroll styles on user elements does not work
+    // &::-webkit-scrollbar {
+    //   width:5px;
+    //   height:5px;
+    //   padding-right: 5px;
+    //   border-left:0;
+    //   background:rgba(0 ,0 ,0 ,0.1);
+    //   border-radius:0;
+    // }
+    // &::-webkit-scrollbar:hover {
+    //   background:rgba(0 ,0 ,0 ,0.15);
+    // }
+    // &::-webkit-scrollbar-track {
+    //   background:none;
+    // }
+    // &::-webkit-scrollbar-thumb {
+    //   background:rgba(0 ,0 ,0 ,0.1);
+    //   border-radius:0;
+    // }
   }
 }
