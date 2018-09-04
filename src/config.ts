@@ -1,4 +1,4 @@
-export const MIN_WIDTH = 20;
+export const MIN_WIDTH = 40;
 
 export const SLIDER_MARGIN = 5;
 export const SLIDER_LINE = 1;

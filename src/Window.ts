@@ -14,8 +14,6 @@ type State = {
   widths: number[] | null
 }
 
-type RefMap = Array<RefObject<HTMLDivElement>>
-
 
 export default class Window extends Component<Props, State> {
   constructor(props: Props) {
@@ -33,7 +31,7 @@ export default class Window extends Component<Props, State> {
 
   private containerRef: RefObject<HTMLDivElement> = createRef()
 
-  private windowRefs: RefMap = []
+  private windowRefs: Array<RefObject<HTMLDivElement>> = []
 
   private mouseDown = (idx: number) => this.setState({ sliding: idx })
 

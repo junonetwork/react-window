@@ -9,18 +9,16 @@ import './style';
 render((
   <Window>
     {[
+      <div className="window" key="one">One</div>,
       [
-        <div className="window">One</div>,
-        <div className="window">Two</div>,
+        <div className="window" key="two">Two</div>,
+        <div className="window" key="three">Three</div>,
         [
-          <div className="window" key="three">Three</div>,
-          [
-            <div className="window" key="three.1">Three Point One</div>,
-            <div className="window" key="three.2">Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two Three Point Two</div>,
-          ]
+          <div className="window" key="four">Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four Four </div>,
+          <div className="window" key="five">Five</div>,
+          <div className="window" key="six">Six</div>,
         ]
-      ],
-      <div className="window" key="four">Four</div>,
+      ]
     ]}
   </Window>
 ), document.getElementById('root'));

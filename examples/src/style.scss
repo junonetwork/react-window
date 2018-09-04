@@ -4,29 +4,34 @@
   height: 100vh;
 
   .window {
-    padding: 3rem 1rem;
+    padding: 2rem 0.6rem;
     font-weight: 200;
     text-align: center;
-    overflow: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 5px;
+    overflow-y: auto;
 
-    // setting scroll styles on user elements does not work
-    // &::-webkit-scrollbar {
-    //   width:5px;
-    //   height:5px;
-    //   padding-right: 5px;
-    //   border-left:0;
-    //   background:rgba(0 ,0 ,0 ,0.1);
-    //   border-radius:0;
-    // }
-    // &::-webkit-scrollbar:hover {
-    //   background:rgba(0 ,0 ,0 ,0.15);
-    // }
-    // &::-webkit-scrollbar-track {
-    //   background:none;
-    // }
-    // &::-webkit-scrollbar-thumb {
-    //   background:rgba(0 ,0 ,0 ,0.1);
-    //   border-radius:0;
-    // }
+    &::-webkit-scrollbar {
+      width:8px;
+      height:8px;
+      padding-right: 8px;
+      border-left:0;
+      background:rgba(0 ,0 ,0 ,0.1);
+      border-radius:0;
+    }
+    &::-webkit-scrollbar:hover {
+      background:rgba(0 ,0 ,0 ,0.15);
+    }
+    &::-webkit-scrollbar-track {
+      background:none;
+    }
+    &::-webkit-scrollbar-thumb {
+      background:rgba(0 ,0 ,0 ,0.1);
+      border-radius:0;
+    }
   }
 }

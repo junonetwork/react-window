@@ -4,7 +4,9 @@
   height: 100%;
 
   .react-window-pane {
-    overflow: auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
   }
 
   .react-window-slider {
@@ -19,7 +21,6 @@
 
     &:hover {
       background-color: #efefef;
-      z-index: 0;
 
       .react-window-slider-line {
         border-color: #aaa;

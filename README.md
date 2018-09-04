@@ -46,3 +46,6 @@ npm run dev
 ```bash
 npm run validate && npm run build
 ```
+
+### See Also
+- [react-split-pane](https://react-split-pane.surge.sh/basic-nested)
