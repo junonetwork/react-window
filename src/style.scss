@@ -8,6 +8,8 @@
   }
 
   .react-window-slider {
+    z-index: 1;
+
     .react-window-slider-line {
       border-style: solid;
       border-color: #bbb;
@@ -17,6 +19,7 @@
 
     &:hover {
       background-color: #efefef;
+      z-index: 0;
 
       .react-window-slider-line {
         border-color: #aaa;

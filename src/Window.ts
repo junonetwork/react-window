@@ -1,7 +1,7 @@
 import { Component, createElement, ReactNode, createRef, RefObject } from "react";
 import { throttle, intersperce, range, just, sum } from "./utils";
 import Slider from './Slider';
-import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH } from './config';
+import { SLIDER_WIDTH, SLIDER_HALF_WIDTH, MIN_WIDTH, SLIDER_MARGIN } from './config';
 
 
 export type Props = {
@@ -33,7 +33,7 @@ export default class Window extends Component<Props, State> {
 
   private containerRef: RefObject<HTMLDivElement> = createRef()
 
-  private windowRefMap: RefMap = []
+  private windowRefs: RefMap = []
 
   private mouseDown = (idx: number) => this.setState({ sliding: idx })
 
@@ -44,11 +44,10 @@ export default class Window extends Component<Props, State> {
 
     if (this.state.widths === null) {
       this.setState({
-        widths: this.windowRefMap.map((ref) => {
-          return this.props.vertical ?
-            ref.current!.getBoundingClientRect().height :
-            ref.current!.getBoundingClientRect().width;
-        })
+        widths: this.windowRefs.map((ref, idx, refs) => this.props.vertical ?
+          ref.current!.getBoundingClientRect().height - (idx === 0 || idx === refs.length -1 ? SLIDER_MARGIN : SLIDER_MARGIN * 2):
+          ref.current!.getBoundingClientRect().width - (idx === 0 || idx === refs.length -1 ? SLIDER_MARGIN : SLIDER_MARGIN * 2)
+        )
       });
     } else {
       /*
@@ -111,17 +110,30 @@ export default class Window extends Component<Props, State> {
     return createElement('div', {
       className: 'react-window',
       ref: this.containerRef,
-      style: {
-        [this.props.vertical ? 'gridTemplateRows' : 'gridTemplateColumns']: gridTemplate,
-        [this.props.vertical ? 'gridTemplateColumns' : 'gridTemplateRows']: '1fr',
-        [this.props.vertical ? 'minHeight' : 'minWidth']: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
+      style: this.props.vertical ? {
+        gridTemplateRows: gridTemplate,
+        gridTemplateColumns: '1fr',
+        minHeight: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
+      } : {
+        gridTemplateColumns: gridTemplate,
+        gridTemplateRows: '1fr',
+        minWidth: `${intersperce(SLIDER_WIDTH, windows.map(just(MIN_WIDTH))).reduce(sum)}px`,
       }
     }, ...this.props.children.reduce<ReactNode[]>((acc, child, idx, children) => {
-      this.windowRefMap[idx] = createRef();
+      this.windowRefs[idx] = createRef();
+
       acc.push(
         createElement('div', {
           className: 'react-window-pane',
-          ref: this.windowRefMap[idx],
+          key: idx,
+          style: this.props.vertical ? {
+            marginBottom: idx !== children.length -1 ? -1 * SLIDER_MARGIN : undefined,
+            marginTop: idx !== 0 ? -1 * SLIDER_MARGIN : undefined,
+          } : {
+            marginRight: idx !== children.length -1 ? -1 * SLIDER_MARGIN : undefined,
+            marginLeft: idx !== 0 ? -1 * SLIDER_MARGIN : undefined,
+          },
+          ref: this.windowRefs[idx],
         },
           Array.isArray(child) ?
             createElement(Window, {
