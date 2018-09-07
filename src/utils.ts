@@ -26,10 +26,10 @@ export function pipe(...fns: Array<(x: any) => any>) {
   }
 };
 
-export const map = <T, R = T>(project: (x: T) => R) => (list: T[]) => {
+export const map = <T, R = T>(project: (item: T, idx: number) => R) => (list: T[]) => {
   const result = [];
-  for (const item of list) {
-    result.push(project(item));
+  for (let i = 0; i < list.length; i++) {
+    result.push(project(list[i], i));
   }
 
   return result;
@@ -57,25 +57,23 @@ export const range = (from: number, to: number) => {
 
 export const sum = (a: number, b: number) => a + b;
 
+export const add = (items: number[]) => {
+  const firstTotal = items.reduce(sum);
+  return (lastItem: number) => firstTotal + lastItem
+};
+
 export const just = <T>(value: T) => () => value;
 
-export const throttle = <T, R>(cb: (...args: T[]) => R, trailing = false) => {
+export const throttle = <T, R>(cb: (...args: T[]) => R) => {
   let clear = true;
 
   return (...args: T[]) => {
     if (clear) {
       clear = false;
 
-      raf(() => {
-        if (trailing) {
-          cb(...args);
-        }
-        clear = true;
-      });
+      raf(() => clear = true);
 
-      if (!trailing) {
-        return cb(...args);
-      }
+      return cb(...args);
     }
   };
 };
